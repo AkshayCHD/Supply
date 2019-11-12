@@ -20,7 +20,14 @@ var query = require('./app/query.js');
 var cors = require('cors');
 app.use(cors());
 
+const STATUS_CANCELLED = "cancelled"
+const STATUS_PASSED = "passed"
+const STATUS_NOT_DETERMINED = "notDetermined"
 
+var dispatchStatus = STATUS_NOT_DETERMINED
+var warehouseOneStatus = STATUS_NOT_DETERMINED
+var warehouseTwoStatus = STATUS_NOT_DETERMINED
+var deliveryStatus = STATUS_NOT_DETERMINED
 
 var events = require('./app/events.js');
 
@@ -134,10 +141,50 @@ app.get('/nothing', async function(req, res) {
 		critical: false
 	};
 	if (events.checkCritical()) {
-		result.critical = true;		
+		result.critical = true;	
+
 	}
 
 	res.send(result);
 });
 
 
+app.get('/getDeliveryStatus', (req, res) => {
+	var result;
+	if(!events.checkCritical()) {
+		result = {
+			dispatchStatus: dispatchStatus,
+			warehouseOneStatus: warehouseOneStatus,
+			warehouseTwoStatus: warehouseTwoStatus,
+			deliveryStatus: deliveryStatus
+		}
+	} else {
+		result = {
+			dispatchStatus: STATUS_CANCELLED,
+			warehouseOneStatus: STATUS_CANCELLED,
+			warehouseTwoStatus: STATUS_CANCELLED,
+			deliveryStatus: STATUS_CANCELLED
+		}
+	}
+	res.send(result);
+})
+
+app.get('/dispatch', (req, res) => {
+	dispatchStatus = STATUS_PASSED
+	res.send(true);
+})
+
+app.get('/w1', (req, res) => {
+	warehouseOneStatus = STATUS_PASSED
+	res.send(true);
+})
+
+app.get('/w2', (req, res) => {
+	warehouseTwoStatus = STATUS_PASSED
+	res.send(true);
+})
+
+app.get('/delivery', (req, res) => {
+	deliveryStatus = STATUS_PASSED
+	res.send(true);
+})
