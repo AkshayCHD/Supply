@@ -9,7 +9,7 @@
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
-  display: flex;
+  display: inline-block;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -19,4 +19,52 @@
 
 .App-link {
   color: #09d3ac;
+}
+
+#container {
+  height: 300px;
+  width: 100%;
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+}
+
+#left {
+  height: 100px;
+  width: 200px;
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+#right {
+  height: 100px;
+  width: 200px;
+
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+#middleOne {
+  height: 100px;
+  width: 200px;
+
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+#middleTwo {
+  height: 100px;
+  width: 200px;
+
+  margin-left: 30px;
+  margin-right: 30px;
+}
+
+#temperature {
+  height: 200px;
+  width: 200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
