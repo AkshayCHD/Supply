@@ -149,6 +149,32 @@ app.get('/nothing', async function(req, res) {
 });
 
 
+
+
+app.get('/block', async function(req, res) {
+	logger.debug('==================== GET BLOCK BY NUMBER ==================');
+	var blockId = req.query.block_no;
+	var peer = "peer0.org1.example.com";
+	var channelName = "mychannel";
+	
+
+	if (!blockId) {
+		res.json(getErrorMessage('\'blockId\''));
+		return;
+	}
+
+	let message = await query.getBlockByNumber(peer, channelName, blockId, "Jim", "Org1");
+	var result_query = message.data.data[0].payload.data.actions[0].payload.action.proposal_response_payload.extension.results.ns_rwset[1].rwset.writes[0].value;
+	var temp_ = JSON.parse(result_query);
+	var taapman = temp_.temperature;	
+	var timestamp = message.data.data[0].payload.header.channel_header.timestamp;
+
+	var output = [ blockId, timestamp, taapman ];
+	console.log(output);
+	res.send(output);
+});
+
+
 app.get('/getDeliveryStatus', (req, res) => {
 	var result;
 	if(!events.checkCritical()) {
